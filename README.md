@@ -1,9 +1,9 @@
 # Overrun
 
-##Context and date
+## Context and date
 Made for project 6 in C220
 
-##Description
+## Description
 The player and his is stuck in a building with a horde of zombies. The player, running low an ammo, must fend off the horde for as long as he can.
 
 ## Implementation
