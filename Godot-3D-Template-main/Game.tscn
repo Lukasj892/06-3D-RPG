@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -7,29 +7,38 @@
 [ext_resource path="res://UI/Dialogue.gd" type="Script" id=5]
 [ext_resource path="res://Assets/GunReticle.png" type="Texture" id=6]
 [ext_resource path="res://Gun/Camera.gd" type="Script" id=7]
-
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 25, 0.25, 25 )
-
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 50, 0.5, 50 )
+[ext_resource path="res://DetectZombie.gd" type="Script" id=8]
+[ext_resource path="res://NPC/Zombie_Spawns.gd" type="Script" id=9]
 
 [sub_resource type="CylinderShape" id=3]
 height = 4.0
 radius = 3.0
 
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 25, 0.25, 50 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 100, 0.5, 100 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.25, 1, 50 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 0.5, 10, 100 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 25, 1, 0.5 )
+
+[sub_resource type="CubeMesh" id=7]
+size = Vector3( 50, 2, 1 )
+
+[sub_resource type="CubeMesh" id=8]
+size = Vector3( 50, 10, 1 )
+
 [node name="Game" type="Spatial"]
 
-[node name="StaticBody" type="StaticBody" parent="."]
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody/CollisionShape"]
-mesh = SubResource( 2 )
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27859, -14.8184 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -15 )
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 2 )
@@ -54,11 +63,12 @@ texture = ExtResource( 6 )
 
 [node name="RayCast" type="RayCast" parent="Player/Pivot/Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
-cast_to = Vector3( 0, 0, -20 )
+enabled = true
+cast_to = Vector3( 0, 0, -75 )
 collision_mask = 4
 
 [node name="NPC" parent="." instance=ExtResource( 3 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.87561, 0.263373, -2.32812 )
+transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -15, 0.25, 0 )
 script = ExtResource( 4 )
 
 [node name="Area" type="Area" parent="NPC"]
@@ -112,7 +122,130 @@ anchor_bottom = 1.0
 margin_top = -20.0
 bbcode_enabled = true
 
-[node name="ZombieContainer" type="Area" parent="."]
+[node name="Enviornment" type="Area" parent="."]
+
+[node name="Floor" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26.6209 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Floor"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Floor/CollisionShape"]
+mesh = SubResource( 2 )
+
+[node name="Ceiling" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 26.621 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Ceiling"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Ceiling/CollisionShape"]
+mesh = SubResource( 2 )
+
+[node name="Wall" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.75, 1.25, 26.5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Wall"]
+shape = SubResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Wall/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 5 )
+
+[node name="Wall2" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.75, 1.25, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Wall2"]
+shape = SubResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Wall2/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 5 )
+
+[node name="Barrier" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Barrier"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Barrier/CollisionShape"]
+mesh = SubResource( 7 )
+
+[node name="Barrier2" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Barrier2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Barrier2/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 8 )
+
+[node name="Barrier3" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 76.125 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Barrier3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Barrier3/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 8 )
+
+[node name="Barrier4" type="StaticBody" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 76.125 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Barrier4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Barrier4/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 8 )
+
+[node name="Barrier5" type="StaticBody" parent="Enviornment"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0, 50 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviornment/Barrier5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Enviornment/Barrier5/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 8 )
+
+[node name="RayCast" type="RayCast" parent="Enviornment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 1, 16.5 )
+enabled = true
+cast_to = Vector3( 50, 0, 0 )
+collision_mask = 8
+script = ExtResource( 8 )
+
+[node name="Zombie_Spawns" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45 )
+script = ExtResource( 9 )
+
+[node name="Spawn_Timer" type="Timer" parent="Zombie_Spawns"]
+wait_time = 2.0
+autostart = true
+
+[node name="Position3D" type="Position3D" parent="Zombie_Spawns" groups=["spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 5.09214 )
+
+[node name="Position3D2" type="Position3D" parent="Zombie_Spawns" groups=["spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.09214 )
+
+[node name="Position3D3" type="Position3D" parent="Zombie_Spawns" groups=["spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 5.09214 )
+
+[node name="Position3D4" type="Position3D" parent="Zombie_Spawns" groups=["spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -4.90786 )
+
+[node name="Position3D5" type="Position3D" parent="Zombie_Spawns" groups=["spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -4.90786 )
 
 [connection signal="body_entered" from="NPC/Area" to="NPC" method="_on_Area_body_entered"]
 [connection signal="body_exited" from="NPC/Area" to="NPC" method="_on_Area_body_exited"]
+[connection signal="timeout" from="Zombie_Spawns/Spawn_Timer" to="Zombie_Spawns" method="_on_Spawn_Timer_timeout"]
