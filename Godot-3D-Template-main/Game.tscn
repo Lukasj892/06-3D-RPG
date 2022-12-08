@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Gun/Camera.gd" type="Script" id=7]
 [ext_resource path="res://DetectZombie.gd" type="Script" id=8]
 [ext_resource path="res://NPC/Zombie_Spawns.gd" type="Script" id=9]
+[ext_resource path="res://Assets/rifleshot.wav" type="AudioStream" id=10]
 
 [sub_resource type="CylinderShape" id=3]
 height = 4.0
@@ -66,6 +67,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 enabled = true
 cast_to = Vector3( 0, 0, -75 )
 collision_mask = 4
+
+[node name="Gunshot" type="AudioStreamPlayer" parent="Player/Pivot/Camera"]
+stream = ExtResource( 10 )
+volume_db = -2.0
 
 [node name="NPC" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -15, 0.25, 0 )

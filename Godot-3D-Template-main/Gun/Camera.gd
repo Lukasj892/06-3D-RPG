@@ -1,6 +1,6 @@
 extends Camera #Gun Script. Player aims with camera.
 
-var ammo = 30
+var ammo = 20
 var mags = 9
 
 onready var ammoText = get_node("/root/Game/UI/Ammo")
@@ -21,6 +21,7 @@ func _physics_process(_delta):
 	
 	if Input.is_action_just_pressed("shoot"):
 		if ammo > 0:
+			$Gunshot.play()
 			if $RayCast.is_colliding():
 				#print("Something Was Shot")
 				var target = $RayCast.get_collider()
