@@ -3,7 +3,9 @@ extends Spatial
 var Zombies = preload("res://NPC/Enemy.tscn")
 
 func _process(_delta):
-	if Global.score < 20:
+	if Global.score == 0:
+		$Spawn_Timer.wait_time = 4
+	elif Global.score < 20:
 		$Spawn_Timer.wait_time = 2
 	elif Global.score >= 20 and Global.score <= 40:
 		$Spawn_Timer.wait_time = 1.5

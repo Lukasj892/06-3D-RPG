@@ -3,8 +3,6 @@ extends Control
 var dialogue = []
 var dialogue_pos = 0
 
-#signal finsihed_dialogue
-
 func _ready():
 	hide()
 
@@ -16,7 +14,6 @@ func _physics_process(_delta):
 		if Input.is_action_just_pressed("action"):
 			dialogue_pos += 1
 	elif dialogue.size():
-		#emit_signal("finsihed_dialogue")
 		HideDialogue()
 
 

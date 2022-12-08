@@ -1,6 +1,7 @@
 extends Camera #Gun Script. Player aims with camera.
 
 var ammo = 20
+var max_ammo = 20
 var mags = 9
 
 onready var ammoText = get_node("/root/Game/UI/Ammo")
@@ -39,7 +40,7 @@ func _physics_process(_delta):
 
 func Reload():
 	if mags > 0:
-		ammo = 30
+		ammo = max_ammo
 		mags -= 1
 	ammoText.text = "Ammo: " + str(ammo) + " Mags: " + str(mags)
 	#print("Mags: " + str(mags))
