@@ -26,6 +26,8 @@ Godot Quick Tip - How to use AnimationTrees by Miziziziz: https://www.youtube.co
 
 Characters and animations created by kenney @ https://kenney.nl/
 
+Gunshot sound effect by SuperPhat: https://pixabay.com/sound-effects/sniper-rifle-5989/
+
 ## Future Development
 probably not
 
